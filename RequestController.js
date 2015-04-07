@@ -2,6 +2,8 @@ var index = require( './index' );
 var dataController = require( index.handle[ 'sink' ] );
 var dataSource = require( index.handle[ 'source' ] );
 var querystring = require( 'querystring' );
+var mustache = require( 'mustache' );
+var util = require( 'util' );
 var fs = require( 'fs' );
 var path = require( 'path' );
 
@@ -26,7 +28,18 @@ function mainView( segments, response, postData ) {
     var dataSources = dataSource.getDataSourceList();
     var approachList = dataController.getApproachList();
 
-    //code for frontend and template engine
+    response.writeHead(200, { "content-type" : "text/html" } );
+    var data = fs.readFile( index.templateDirectory + 'index.html', 'utf8', function( err, data ) {
+	if( err ) {
+	}
+	else {
+	    response.write( mustache.to_html( data.toString(), {
+		dataSources : dataSources,
+		approachList : approachList
+	    } ) );
+	    response.end();
+	}
+    } );
 }
 
 function singleApproachView( segments, response, postData ) {
