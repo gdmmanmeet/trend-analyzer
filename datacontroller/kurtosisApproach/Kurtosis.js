@@ -3,10 +3,10 @@ var mongodb = require( 'mongodb' );
 
 var upsert = function( options ) {
 
-    conn.getConnection( 'stddev_approach_db', function( client ) {
+    conn.getConnection( 'kurtosis_approach_db', function( client ) {
 
 	var score = options[ 'score' ];
-	var collection = mongodb.Collection( client, 'stddev_tag_collection' );
+	var collection = mongodb.Collection( client, 'kurtosis_tag_collection' );
 
 	collection.update( { 'text' : score.text }, { '$set' : score }, { "upsert" : true }, function( err, numOfRows ) {
 
@@ -21,9 +21,9 @@ var upsert = function( options ) {
 
 var fetchAll = function( options ) {
 
-    conn.getConnection( 'stddev_approach_db', function( client ) {
+    conn.getConnection( 'kurtosis_approach_db', function( client ) {
 
-        var collection = mongodb.Collection( client, 'stddev_tag_collection' );
+        var collection = mongodb.Collection( client, 'kurtosis_tag_collection' );
         var iter = collection.find();
 	var callback = options[ 'callback' ];
 
@@ -44,11 +44,11 @@ var fetchAll = function( options ) {
 
 var storeData = function( options ) {
 
-    conn.getConnection( 'stddev_approach_db', function( client ) {
+    conn.getConnection( 'kurtosis_approach_db', function( client ) {
 
-        var collection = mongodb.Collection( client, 'stddev_tag_collection' );
+        var collection = mongodb.Collection( client, 'kurtosis_tag_collection' );
         var tags = options[ 'tags' ];
-	var messageCollection = mongodb.Collection( client, 'stddev_message_collection' );
+	var messageCollection = mongodb.Collection( client, 'kurtosis_message_collection' );
 
         tags.forEach( function( tag ) {
             collection.update( tag, { '$inc' : { 'count' : 1 } }, { 'upsert' : true }, function( err, numOfRows ) {

@@ -1,14 +1,14 @@
-var stddevModel = require( './Stddev.js' );
+var skewModel = require( './Kurtosis.js' );
 
 function updateScores() {
 
-    stddevModel.fetchAll( {
-	'callback' : updatestddevValues
+    kurtosisModel.fetchAll( {
+	'callback' : updatekurtosisValues
     } );
 
 }
 
-function updatestddevValues( options ) {
+function updatekurtosisValues( options ) {
 
     var scores = options[ 'scores' ];
 
@@ -19,9 +19,9 @@ function updatestddevValues( options ) {
             
             score[ 'mean' ] = ( score.total * score.mean + score.count )/( score.total + 1 );
             score[ 'total' ]++;
-            score['std-dev'] = Math.sqrt((Math.pow((score.count-score.mean),2) + Math.pow(((score.total - 1) * (oldmean - score.mean)),2))/(score.total - 1));
+            score['kurtosis'] = Math.sqrt(((Math.pow((score.count-score.mean),4) + Math.pow(((score.total - 1) * (oldmean - score.mean)),4))/N)/Math.pow(((Math.pow((score.count-score.mean),2) + Math.pow(((score.total - 1) * (oldmean - score.mean)),2))/score.total),2))-3;
             score['count'] = 0;
-            stddevModel.upsert( {
+            kurtosisModel.upsert( {
                 "score" : score
             } );
 
@@ -33,7 +33,7 @@ function updatestddevValues( options ) {
             score['total'] = 1;
             score['count']=0;
 
-            stddevModel.upsert( {
+            kurtosisModel.upsert( {
                 'score' : score
             } );
 
@@ -46,7 +46,7 @@ function changeConstants( options ) {
 }
 
 function handleData( options ) {
-    stddevModel.storeData( options );
+    kurtosisModel.storeData( options );
 }
 
 exports.updateScores = updateScores;
