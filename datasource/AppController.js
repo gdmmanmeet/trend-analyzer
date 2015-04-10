@@ -1,5 +1,4 @@
 var index = require( './index.js' );
-var dataSources = {};
 var variableInterval = require( '../utils/VariableInterval' );
 var http = require( 'http' );
 var querystring = require( 'querystring' );
@@ -13,12 +12,7 @@ function initDataSource( options ) {
     var dataSource;
     var dataRate = options[ 'dataRate' ];
 
-    if( ! dataSources[ sourceName ] ) {
-        dataSource = require( index.dataSources[ sourceName ] );
-        dataSources[ sourceName ] = dataSource;
-    }
-    else
-        dataSource = dataSources[ sourceName ];
+    dataSource = require( index.dataSources[ sourceName ] );
 
     GLOBAL.datasourceInterval = variableInterval.setInterval( function( dataRate, offset ) {
 	dataSource.fetch( {
@@ -59,6 +53,7 @@ function fetchGroundTruth( options ) {
     }
     else
         dataSource = dataSources[ sourceName ];
+    options[ 'offset' ] = GLOBAL.datasourceInterval.offset;
     return dataSource.fetchGroundTruth( options );
 
 }

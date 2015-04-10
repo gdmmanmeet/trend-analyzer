@@ -2,33 +2,55 @@ var conn = require( '../connection' );
 var mongodb = require( 'mongodb' );
 
 var fetch = function( options ){
-    conn.getConnection( 'frouzan', function( client ) {
+    conn.getConnection( 'twitter_colling1', function( client ) {
 
-        var collection = mongodb.Collection( client, 'chapter1' );
-	var dataRate = options[ 'dataRate' ];
-	var offset = options[ 'offset' ];
-        var messages = collection.find().limit( parseInt( dataRate ) ).skip( offset );
-
-        messages.toArray( function( err, data ) {
-            if ( err ) {
-            }
-            else
-                options[ 'callback' ]( {
-		    'data' : data,
-		    'offset' : offset + parseInt( dataRate )
+	var dataSource = options[ 'sourceName' ];
+        var collection = mongodb.Collection( client, dataSource );
+	if( ! options[ 'offset' ] )
+	    var offset = { 'timestamp' : 1 };
+	else
+	    var offset = options[ 'offset' ];
+	if( ! options[ 'offset' ].messages || !options[ 'offset'].messages.length ) {
+		var messages = collection.find( { 'timestamp' : options[ 'offset' ].timestamp } );
+		messages.toArray( function( err, data ) {
+		    if ( err ) {
+		    }
+		    else {
+			offset.messages = data;
+			offset.timestamp ++;
+			offset.intervalsLeft = 60;
+			options[ 'callback' ]( {
+			    'data' : data.splice( 0, data.length / offset.intervalsLeft -- ),
+			    'offset' : offset
+			} );
+		    }
 		} );
-        } );
-
+	}
+	else
+	    options[ 'callback' ] ( {
+		'data' : offset.messages.splice( 0, offset.messages.length / offset.intervalsLeft -- ),
+		'offset' : offset
+	    } );
     } );
 }
 
 var fetchTrend = function( options ) {
-    var trends = options[ 'trends' ];
-    trends.groundTruth = {
-	'tags' : [ 'data', 's', 'sa', 'dsd' ],
-	'time' : new Date().getTime() - options[ 'requestTime' ]
-    };
-    options[ 'callback' ]( { 'trends' : trends } );
+    conn.getConnection( 'twitter_colling_truth', function( client ) {
+	var trends = options[ 'trends' ];
+	var collection = mongodb.Collection( client, options[ 'sourceName' ] );
+	var tags = collection.find( { 'timestamp' : options[ 'offset' ] } );
+	tags.toArray( function( err, data ) {
+	    if( err ) {
+	    }
+	    else {
+		trends.groundTruth = {
+		    'tags' : data,
+		    'time' : new Date().getTime() - options[ 'requestTime' ]
+		};
+		options[ 'callback' ]( { 'trends' : trends } );
+	    }
+	} );
+    } );
 }
 
 exports.fetch = fetch;
