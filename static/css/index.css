@@ -1,0 +1,85 @@
+.left {
+    float : left;
+}
+
+.right {
+    float : right;
+}
+
+.col-span-6 {
+    width : 50%;
+}
+
+.label, output {
+    color : rgb(62, 62, 62);
+    margin : 2%;
+    font-size : 125%;
+}
+
+.approachList {
+    overflow : auto;
+    max-height : 200px;
+    width : 50%;
+    margin : 2%;
+    border : 1px solid;
+}
+
+.approachList ul {
+    list-style : none;
+}
+
+.approachList ul li:hover{
+    background : rgb(156, 156, 156);
+    cursor : pointer;
+}
+
+.removable {
+    background: rgb(234, 234, 234);
+    padding: 5px;
+    border-radius: 4px;
+    margin: 2%;
+    display : block;
+    float : left;
+}
+
+.removable_remove {
+    cursor : pointer;
+}
+
+.clear {
+    clear : both;
+}
+
+.vertical_space_40 {
+    height : 40px;
+    width : 100%;
+}
+
+.error {
+    color : red;
+    margin : 2%;
+}
+
+input, select, .rangeslider {
+    background: white;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 5px;
+    width: 50%;
+    color: rgb(106, 106, 106);
+    margin: 2%;
+    height: 30px;
+}
+
+button {
+    background: rgb(234, 234, 234);
+    border-radius: 5px;
+    margin: 5%;
+    width: 25%;
+    height: 30px;
+    cursor: pointer;
+    color: rgb(62, 62, 62);
+}
+
+#selectedApproaches {
+    margin : 2%;
+}

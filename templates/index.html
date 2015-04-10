@@ -1,0 +1,54 @@
+<html>
+    <head>
+
+	<title> Trend Analyzer </title>
+	<link rel = "stylesheet" type = "text/css" href = "/static/css/index.css">
+	<link rel = "stylesheet" type = "text/css" href = "/static/css/rangeslider.css">
+	<script src = "/static/js/jquery-2.1.0.min.js"></script>
+	<script src = "/static/js/rangeslider.min.js"></script>
+	<script src = "/static/js/index.js"></script>
+
+    </head>
+    <body>
+	<div class = "left col-span-6">
+	    <!-- code for approach list -->
+	    <div class = "label"> Select approaches you want to compare </div>
+	    <div class = "approachList">
+		<ul>
+		    {{#approachList}}
+			<li> {{.}} </li>
+		    {{/approachList}}
+		</ul>
+	    </div>
+	    <div class = "label"> Selected Approaches </div>
+	    <div id="selectedApproaches" > </div>
+	    <div class = "clear"> </div>
+	    <div class = "vertical_space_40" ></div>
+	    <div class = "label"> Select the Cron Scheduling Time </div>
+	    <div>
+		<input id = "scoreRate" type = "range" data-show-value="true">
+		<output></output>
+	    </div>
+	</div>
+	<div class = "left col-span-6">
+	    <div class = "label"> Select Data Source</div>
+	    <div>
+		<select id = "dataSource" >
+		    {{#dataSources}}
+			<option> {{.}} </option>
+		    {{/dataSources}}
+		</select>
+	    </div>
+	    <div class = "vertical_space_40" ></div>
+	    <div class = "label"> Select Data Rate </div>
+	    <div>
+		<input id = "dataRate" type = "range" data-show-value="true">
+		<output></output>
+	    </div>
+	</div>
+	<div class = "clear"> </div>
+	<div class = "vertical_space_40"></div>
+	<div class = "error"></div>
+	<button id = "analyzeApproachButton" class = "right"> Analyze Approach </button>
+    </body>
+</html>
