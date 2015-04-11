@@ -19,6 +19,7 @@ function initDataSource( options ) {
 	    'sourceName' : sourceName,
 	    'dataRate' : dataRate,
 	    'offset' : offset,
+	    'approachList' : options[ 'approachList' ],
 	    'callback' : throwData
 	} );
     }, dataRate );
@@ -34,12 +35,14 @@ function throwData( options ) {
 	    "hostname" : "localhost",
 	    "port" : "8888",
 	    "method" : "POST",
-	    "path" : "/final/sink/handle"
+	    "path" : "/sink/data"
     } );
     req.on( 'error', function( e ) {
+	console.log( e );
     } );
     req.write( querystring.stringify( {
-        'messages' : JSON.stringify( data )
+        'messages' : JSON.stringify( data ),
+	'approachList' : JSON.stringify( { 'list' : options[ 'approachList' ] } )
     } ) );
     req.end();
 

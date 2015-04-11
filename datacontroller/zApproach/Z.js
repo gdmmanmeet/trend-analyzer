@@ -34,7 +34,7 @@ var fetchAll = function( options ) {
 
             else
 		callback( {
-		    'store' : data
+		    'scores' : data
 		} );
 
         });

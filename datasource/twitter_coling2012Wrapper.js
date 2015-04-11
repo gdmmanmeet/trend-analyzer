@@ -21,7 +21,8 @@ var fetch = function( options ){
 			offset.intervalsLeft = 60;
 			options[ 'callback' ]( {
 			    'data' : data.splice( 0, data.length / offset.intervalsLeft -- ),
-			    'offset' : offset
+			    'offset' : offset,
+			    'approachList' : options[ 'approachList' ]
 			} );
 		    }
 		} );
@@ -29,7 +30,8 @@ var fetch = function( options ){
 	else
 	    options[ 'callback' ] ( {
 		'data' : offset.messages.splice( 0, offset.messages.length / offset.intervalsLeft -- ),
-		'offset' : offset
+		'offset' : offset,
+		'approachList' : options[ 'approachList' ]
 	    } );
     } );
 }

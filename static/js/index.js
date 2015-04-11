@@ -23,7 +23,7 @@ $( function() {
 	var text = $( this ).html();
 	$( this ). remove();
 	$( '#selectedApproaches' ).append( '<span class="removable">' + text + '<span class="removable_remove">&#10006;</span></span>' );
-	selectedApproaches.push( text );
+	selectedApproaches.push( $.trim( text ) );
 	if( selectedApproaches.length > 1 )
 	    $( '#analyzeApproachButton' ).html( "Compare Approaches" );
 	else

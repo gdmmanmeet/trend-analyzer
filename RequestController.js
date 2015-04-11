@@ -46,14 +46,16 @@ function singleApproachView( segments, response, postData ) {
     if ( postData ) {
 
 	var parsedData  = querystring.parse( postData );
+	var approachList = JSON.parse( parsedData[ 'approachList' ] )[ 'list' ];
 
 	dataSource.initDataSource( {
 	    'sourceName' : parsedData[ 'sourceName' ],
-	    'dataRate' : parsedData[ 'dataRate' ]
+	    'dataRate' : parsedData[ 'dataRate' ],
+	    'approachList' : approachList
 	} );
 
 	dataController.setCron( {
-	    'approachList' : JSON.parse( parsedData[ 'approachList' ] )[ 'list' ],
+	    'approachList' : approachList,
 	    'scoreRate' : parsedData[ 'scoreRate' ]
 	} );
 
