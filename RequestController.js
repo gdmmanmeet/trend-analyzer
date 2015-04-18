@@ -50,13 +50,13 @@ function singleApproachView( segments, response, postData ) {
 
 	    dataSource.initDataSource( {
 	        'sourceName' : parsedData.sourceName,
-	        'dataRate' : parsedData[ 'dataRate' ],
+	        'dataRate' : parsedData.dataRate,
 	        'approachList' : approachList
 	    } );
 
 	    dataController.setCron( {
 	        'approachList' : approachList,
-	        'scoreRate' : parsedData[ 'scoreRate' ]
+	        'scoreRate' : parsedData.scoreRate
 	    } );
 
 	    response.writeHead( 200, { "content-type" : "text/html" } );
@@ -101,13 +101,13 @@ function fetchTrends( segments, response, postData ) {
 	var parsedData  = querystring.parse( postData );
 	var trends = {};
 	dataSource.fetchGroundTruth( {
-	    'sourceName' : parsedData[ 'sourceName' ],
+	    'sourceName' : parsedData.sourceName,
 	    'trends' : trends,
 	    'requestTime' : new Date().getTime(),
 	    'callback' : function( options ) {
-		options[ 'trends' ].approaches = [];
+		options.trends.approaches = [];
 		dataController.fetchTrends( {
-		    'approachList' : JSON.parse( parsedData[ 'approachList' ] )[ 'list' ],
+		    'approachList' : JSON.parse( parsedData.approachList ).list,
 		    'trends' : options[ 'trends' ],
 		    'callback' : function( options ) {
                 response.writeHead( 200, { "content-type" : "application/json" } );

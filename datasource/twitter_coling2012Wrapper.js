@@ -4,13 +4,14 @@ var mongodb = require( 'mongodb' );
 var fetch = function( options ){
     conn.getConnection( 'twitter_colling1', function( client ) {
 
-	var dataSource = options[ 'sourceName' ];
-        var collection = mongodb.Collection( client, dataSource );
-	if( ! options[ 'offset' ] )
-	    var offset = { 'timestamp' : 1 };
+	var dataSource = options.sourceName;
+    var collection = mongodb.Collection( client, dataSource );
+    var offset;
+	if( ! options.offset )
+	    offset = { 'timestamp' : 1 };
 	else
-	    var offset = options[ 'offset' ];
-	if( ! options[ 'offset' ].messages || !options[ 'offset'].messages.length ) {
+	    offset = options.offset;
+	if( ! options.offset.messages || !options[ 'offset'].messages.length ) {
 		var messages = collection.find( { 'timestamp' : options[ 'offset' ].timestamp } );
 		messages.toArray( function( err, data ) {
 		    if ( err ) {

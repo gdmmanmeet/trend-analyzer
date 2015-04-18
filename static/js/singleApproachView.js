@@ -36,10 +36,10 @@ var drawGraph = function() {
             this.tags.push( r.tag( this.x, this.y[ i ], this.values[ i ], 160, 10 ).insertBefore( this ).attr( [ { fill: "#fff" }, { fill: this.symbols[i].attr("fill") } ] ) );
         }
     }, function () {
-        this.tags && this.tags.remove();
+        var temp = this.tags && this.tags.remove();
     } );
     r.text( 400, 50, "Tag Fetch Time");
-    var lines = r.linechart( 340, 60, 300, 220, [ percentageMatchX ], [ approachTagFetchTime, groundTagFetchTime ], {
+    var tagFetchLines = r.linechart( 340, 60, 300, 220, [ percentageMatchX ], [ approachTagFetchTime, groundTagFetchTime ], {
         nostroke: false,
         axis: "0 0 1 1",
         symbol: "circle",
@@ -50,7 +50,7 @@ var drawGraph = function() {
             this.tags.push( r.tag( this.x, this.y[ i ], this.values[ i ], 160, 10 ).insertBefore( this ).attr( [ { fill: "#fff" }, { fill: this.symbols[i].attr("fill") } ] ) );
         }
     }, function () {
-        this.tags && this.tags.remove();
+        var temp = this.tags && this.tags.remove();
     } );
 
     lines.symbols.attr({ r: 6 });

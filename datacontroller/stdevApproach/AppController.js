@@ -12,34 +12,35 @@ function updatestddevValues( options ) {
 
     var scores = options[ 'scores' ];
 
-    scores.forEach( function( score ) {
+    if( scores )
+        scores.forEach( function( score ) {
 
-        if ( score['mean'] ) {
-            var oldmean=score.mean;
+            if ( score['mean'] ) {
+                var oldmean=score.mean;
             
-            score[ 'mean' ] = ( score.total * score.mean + score.count )/( score.total + 1 );
-            score[ 'total' ]++;
-            score['std-dev'] = Math.sqrt((Math.pow((score.count-score.mean),2) + Math.pow(((score.total - 1) * (oldmean - score.mean)),2))/(score.total - 1));
-            score['count'] = 0;
-            stddevModel.upsert( {
-                "score" : score
-            } );
+                score[ 'mean' ] = ( score.total * score.mean + score.count )/( score.total + 1 );
+                score[ 'total' ]++;
+                score['std-dev'] = Math.sqrt((Math.pow((score.count-score.mean),2) + Math.pow(((score.total - 1) * (oldmean - score.mean)),2))/(score.total - 1));
+                score['count'] = 0;
+                stddevModel.upsert( {
+                    "score" : score
+                } );
 
-        }
+            }
 
-        else {
+            else {
 
-            score['mean'] = score.count;
-            score['total'] = 1;
-            score['count']=0;
+                score['mean'] = score.count;
+                score['total'] = 1;
+                score['count']=0;
 
-            stddevModel.upsert( {
-                'score' : score
-            } );
+                stddevModel.upsert( {
+                    'score' : score
+                } );
 
-        }
+            }
 
-    });
+        });
 }
 
 function changeConstants( options ) {
@@ -49,6 +50,11 @@ function handleData( options ) {
     stddevModel.storeData( options );
 }
 
+function fetchTrends( options ) {
+    return stddevModel.trendingTopics( options );
+}
+
 exports.updateScores = updateScores;
 exports.changeConstants = changeConstants;
 exports.handleData = handleData;
+exports.fetchTrends = fetchTrends;
