@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+	<title> Trend Analyzer </title>
+	<link rel = "stylesheet" type = "text/css" href = "/static/css/index.css">
+	<link rel = "stylesheet" type = "text/css" href = "/static/css/rangeslider.css">
+    </head>
+    <body>
+	<div id = "trend_list" class = "left col-span-4" >
+	</div>
+	<div class = "left col-span-8" >
+        <div class = "left col-span-6">
+		    <div class = "label"> Change the data rate </div>
+		    <div>
+		        <input id = "dataRate" type = "range" data-show-value="true" min = 1 max = 500>
+		        <output></output>
+		    </div>
+	    </div>
+	    <div class = "left col-span-6">
+		    <div class = "label"> Change the cron Scheduling Time </div>
+		    <div>
+		        <input id = "cronSchedule" type = "range" data-show-value="true" min = 1 max = 15 >
+		        <output></output>
+		    </div>
+	    </div>
+        <div>
+            <div id = "percentageMatchGraph"></div>
+        </div>
+	</div>
+	    <script src = "/static/js/jquery-2.1.0.min.js"></script>
+	    <script src = "/static/js/rangeslider.min.js"></script>
+        <script src="/static/js/raphael-min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/static/js/g.raphael.js" type="text/javascript"></script>
+        <script src="/static/js/g.line.js" type="text/javascript" charset="utf-8"></script>
+	    <script src = "/static/js/singleApproachView.js"></script>
+    </body>
+</html>

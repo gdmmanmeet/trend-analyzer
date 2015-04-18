@@ -1,6 +1,6 @@
 var index = require( './index' );
-var dataController = require( index.handle[ 'sink' ] );
-var dataSource = require( index.handle[ 'source' ] );
+var dataController = require( index.handle.sink );
+var dataSource = require( index.handle.source );
 var querystring = require( 'querystring' );
 var mustache = require( 'mustache' );
 var util = require( 'util' );
@@ -45,22 +45,29 @@ function mainView( segments, response, postData ) {
 function singleApproachView( segments, response, postData ) {
     if ( postData ) {
 
-	var parsedData  = querystring.parse( postData );
-	var approachList = JSON.parse( parsedData[ 'approachList' ] )[ 'list' ];
+	    var parsedData  = querystring.parse( postData );
+	    var approachList = JSON.parse( parsedData.approachList ).list;
 
-	dataSource.initDataSource( {
-	    'sourceName' : parsedData[ 'sourceName' ],
-	    'dataRate' : parsedData[ 'dataRate' ],
-	    'approachList' : approachList
-	} );
+	    dataSource.initDataSource( {
+	        'sourceName' : parsedData.sourceName,
+	        'dataRate' : parsedData[ 'dataRate' ],
+	        'approachList' : approachList
+	    } );
 
-	dataController.setCron( {
-	    'approachList' : approachList,
-	    'scoreRate' : parsedData[ 'scoreRate' ]
-	} );
+	    dataController.setCron( {
+	        'approachList' : approachList,
+	        'scoreRate' : parsedData[ 'scoreRate' ]
+	    } );
 
-	//code for frontend and template engine
-
+	    response.writeHead( 200, { "content-type" : "text/html" } );
+	    var data = fs.readFile( index.templateDirectory + 'singleApproachView.html', 'utf8', function( err, data ) {
+	        if( err ) {
+	        }
+	        else {
+		        response.write( mustache.to_html( data.toString(), {} ) );
+		        response.end();
+            }
+	    } );
     }
     else {
     }
@@ -103,7 +110,9 @@ function fetchTrends( segments, response, postData ) {
 		    'approachList' : JSON.parse( parsedData[ 'approachList' ] )[ 'list' ],
 		    'trends' : options[ 'trends' ],
 		    'callback' : function( options ) {
-			//code for frontend and template engine
+                response.writeHead( 200, { "content-type" : "application/json" } );
+			    response.write( JSON.stringify( options ['trends' ] ) );
+			    response.end();
 		    }
 		} );
 	    }

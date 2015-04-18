@@ -8,8 +8,8 @@ function getApproachList() {
 
 function setCron( options ) {
 
-    var approachList = options[ 'approachList' ];
-    var scoreRate = options[ 'scoreRate' ];
+    var approachList = options.approachList;
+    var scoreRate = options.scoreRate;
     var approach;
     var approachName;
 
@@ -28,15 +28,15 @@ function setCron( options ) {
 }
 
 function fetchTrends( options ) {
-    var approachList = options[ 'approachList' ];
+    var approachList = options.approachList;
     var approach;
     if( approachList && approachList.length ){
 	var approachName = approachList.pop();
 	approach = require( index.availableApproaches[ approachName ] );
 
-	options[ 'approachList' ] = approachList;
+	options.approachList = approachList;
 	approach.fetchTrends( {
-	    'trends' : options[ 'trends' ],
+	    'trends' : options.trends,
 	    'requestTime' : new Date().getTime(),
 	    'callback' : fetchTrends,
 	    'callbackOptions' : options
@@ -55,6 +55,9 @@ function route ( segments, response, postData ) {
 	case "data" :
 	    handleData( segments, response, postData );
 	    break;
+    case "changeScoreRate" :
+        changeScoreRate( segments, response, postData );
+        break;
     }
 }
 
@@ -109,6 +112,15 @@ function handleData( segments, response, postData ) {
     }
     else {
     }
+}
+
+function changeScoreRate( segments, response, postData )
+{
+    var parsedData = querystring.parse( postData );
+    var newCronTime = new cron.CronTime( '1 */' + parsedData.scoreRate + ' * * * *' );
+    GLOBAL.dataControllerCron.setTime( newCronTime );
+    GLOBAL.dataControllerCron.start();
+    response.end();
 }
 
 exports.getApproachList = getApproachList;

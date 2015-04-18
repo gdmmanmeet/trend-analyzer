@@ -50,12 +50,7 @@ function throwData( options ) {
 
 function fetchGroundTruth( options ) {
     var sourceName = options[ 'sourceName' ];
-    if( ! dataSources[ sourceName ] ) {
-        dataSource = require( index.dataSources[ sourceName ] );
-        dataSources[ sourceName ] = dataSource;
-    }
-    else
-        dataSource = dataSources[ sourceName ];
+    var dataSource = require( index.dataSources[ sourceName ] );
     options[ 'offset' ] = GLOBAL.datasourceInterval.offset;
     return dataSource.fetchGroundTruth( options );
 
@@ -72,7 +67,7 @@ function route ( segments, response, postData ) {
 function changeDataRate( segments, response, postData ) {
     if ( postData ) {
 	var parsedData  = querystring.parse( postData );
-	GLOBAL.datasourceInterval.changeDataRate( parsedData[ 'dataRate' ] );
+	GLOBAL.datasourceInterval.changeDataRate( parsedData[ 'scoreRate' ] );
 
     }
     else {

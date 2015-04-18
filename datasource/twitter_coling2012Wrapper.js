@@ -18,8 +18,8 @@ var fetch = function( options ){
 		    else {
 			offset.messages = data;
 			offset.timestamp ++;
-			offset.intervalsLeft = 60;
-			options[ 'callback' ]( {
+			offset.intervalsLeft = 60 / options[ 'dataRate' ];
+            options[ 'callback' ]( {
 			    'data' : data.splice( 0, data.length / offset.intervalsLeft -- ),
 			    'offset' : offset,
 			    'approachList' : options[ 'approachList' ]
@@ -33,6 +33,7 @@ var fetch = function( options ){
 		'offset' : offset,
 		'approachList' : options[ 'approachList' ]
 	    } );
+    //console.log( options.dataRate );
     } );
 }
 
@@ -40,7 +41,7 @@ var fetchTrend = function( options ) {
     conn.getConnection( 'twitter_colling_truth', function( client ) {
 	var trends = options[ 'trends' ];
 	var collection = mongodb.Collection( client, options[ 'sourceName' ] );
-	var tags = collection.find( { 'timestamp' : options[ 'offset' ] } );
+	var tags = collection.find( { 'timestamp' : options.offset.timestamp } );
 	tags.toArray( function( err, data ) {
 	    if( err ) {
 	    }

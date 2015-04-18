@@ -10,6 +10,14 @@
     width : 50%;
 }
 
+.col-span-4 {
+    width : 33.33333%;
+}
+
+.col-span-8 {
+    width: 66.66667%;
+}
+
 .label, output {
     color : rgb(62, 62, 62);
     margin : 2%;
@@ -78,6 +86,14 @@ button {
     height: 30px;
     cursor: pointer;
     color: rgb(62, 62, 62);
+}
+
+table, tr {
+    width : 100%;
+}
+
+td {
+    text-align : center;
 }
 
 #selectedApproaches {
